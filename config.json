@@ -1,0 +1,18 @@
+{
+	"api_key": "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",
+	"api_url": "https://api.groq.com/openai/v1",
+	"default_model": "LLaMA 3.3 (70B Versatile)",
+	"host": "10.225.0.240",
+	"port": 8765,
+	"models": {
+		"Gemma Model 2 (9B IT)": "gemma2-9b-it",
+		"LLaMA 3.3 (70B Versatile)": "llama-3.3-70b-versatile",
+		"LLaMA 3.1 (8B Instant)": "llama-3.1-8b-instant",
+		"LLaMA Guard 3 (8B)": "llama-guard-3-8b",
+		"LLaMA 3 (70B, 8192 Tokens)": "llama3-70b-8192",
+		"LLaMA 3 (8B, 8192 Tokens)": "llama3-8b-8192",
+		"Whisper Large v3": "whisper-large-v3",
+		"Whisper Large v3 Turbo": "whisper-large-v3-turbo",
+		"Distilled Whisper Large v3 (English)": "distil-whisper-large-v3-en"
+	}
+}
