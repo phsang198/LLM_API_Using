@@ -51,7 +51,8 @@ def ask_api():
     #end_time = time.time()  # Kết thúc đo thời gian toàn bộ API
     #print(f"Total API execution time: {end_time - start_time:.4f} seconds")
 
-    return jsonify({'results': [results[i] for i in range(len(questions))]})
+    #return jsonify({'results': [results[i] for i in range(len(questions))]})
+    return results[0]
 
 if __name__ == '__main__':
     app.run(debug=False, host=config['host'], port=config['port'])
