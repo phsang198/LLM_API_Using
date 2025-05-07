@@ -7,7 +7,7 @@ from flask import Flask, jsonify, request
 
 from llama import ask_groq_mistral, audio_to_text
 
-from waitress import serve
+#from waitress import serve
 
 app = Flask(__name__)
 
