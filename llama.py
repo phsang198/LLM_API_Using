@@ -1,4 +1,3 @@
-#import time
 import json
 
 import openai
@@ -40,6 +39,28 @@ def ask_groq_mistral(question: str, model_name: str = MODEL_NAME) -> str:
     
     return response.choices[0].message.content
 
+def audio_to_text(file_path: str, lang: str, response_format: str, model_name: str = MODEL_NAME) -> str:
+    
+    # Lấy model ID từ tên mô hình
+    model_id = MODEL_MAP.get(model_name)
+    if not model_id:
+        raise ValueError(f"Model name '{model_name}' not found.")
+
+    try:
+        with open(file_path, "rb") as file:
+            response = client.audio.transcriptions.create(
+                file=file,
+                model=model_id,
+                response_format=response_format,
+                language=lang,
+                temperature=0
+            )
+            return response.text  # Access the 'text' attribute instead of subscript notation
+        
+    except Exception as e:
+        # Xử lý lỗi từ API
+        raise Exception(f"Error during audio-to-text conversion: {str(e)}")
+    
 # Giao diện hỏi đáp đơn giản
 # while True:
 #     q = input("Nhập câu hỏi của bạn (hoặc 'exit' để thoát): ")
