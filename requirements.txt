@@ -1,2 +1,5 @@
 Flask
 openai
+gtts
+pydub
+jwt

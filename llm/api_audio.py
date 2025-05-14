@@ -1,9 +1,13 @@
 import io
+from datetime import datetime
 
 from gtts import gTTS
-from pydub import AudioSegment
+
 from llm.llama import chat_histories, chat_info
-from datetime import datetime
+
+# from pydub import AudioSegment
+
+
 
 def text_2_audio(text: str, response_format: str, language: str, chatid: str, userid:str = None) -> bytes:
 
@@ -34,13 +38,13 @@ def text_2_audio(text: str, response_format: str, language: str, chatid: str, us
 
         if response_format == 'mp3':
             return audio_data.read()
-        else:
-            # Convert from mp3 in memory to requested format
-            audio = AudioSegment.from_file(audio_data, format="mp3")
-            output_data = io.BytesIO()
-            audio.export(output_data, format=response_format)
-            output_data.seek(0)
-            return output_data.read()
+        # else:
+        #     # Convert from mp3 in memory to requested format
+        #     audio = AudioSegment.from_file(audio_data, format="mp3")
+        #     output_data = io.BytesIO()
+        #     audio.export(output_data, format=response_format)
+        #     output_data.seek(0)
+        #     return output_data.read()
 
     except Exception as e:
         raise Exception(f"Lỗi chuyển văn bản thành giọng nói: {str(e)}")
