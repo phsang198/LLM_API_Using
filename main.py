@@ -55,7 +55,7 @@ def ask_api():
     for thread in threads:
         thread.join()
 
-    return jsonify(results)
+    return jsonify({"text": results.get(0)})
 
 @app.route('/api/audio/stt', methods=['POST'])
 def audio_stt_api():
