@@ -1,6 +1,7 @@
 import os  # Import thêm module os để xử lý file
 import threading
 import uuid  # Import thêm module uuid để tạo tên file duy nhất
+import io  # Import io for BytesIO
 from uuid import UUID  # Import UUID for validation
 
 from flask import Flask, jsonify, request
@@ -8,8 +9,10 @@ from flask import Flask, jsonify, request
 from authen import get_userid_from_token
 from config import config  # Import config từ file config.py
 from conversation import conversation_bp
-from llm.api_audio import text_2_audio
+from llm.api_audio import text_2_audio, convert_audio_type
 from llm.llama import ask_groq_mistral, audio_to_text, text_to_audio
+
+from werkzeug.datastructures import FileStorage  # Thêm import này ở đầu file
 
 #from waitress import serve
 
@@ -87,8 +90,14 @@ def audio_stt_api():
     try:
         cache_dir = "cache"
         os.makedirs(cache_dir, exist_ok=True)
+        
+        if file.filename.endswith('.oga'):
+            converted_bytes = convert_audio_type(file.read())
+            file = FileStorage(stream=io.BytesIO(converted_bytes), filename=file.filename.replace('.oga', '.mp3'))
+            
         unique_filename = f"{uuid.uuid4()}_{file.filename}"
         file_path = os.path.join(cache_dir, unique_filename)
+
         file.save(file_path)
 
         result = audio_to_text(file_path, lang, response_format, chat_id, prompt, model_name=model_name, userid=userid)

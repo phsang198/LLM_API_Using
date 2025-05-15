@@ -5,9 +5,19 @@ from gtts import gTTS
 
 from llm.llama import chat_histories, chat_info
 
-# from pydub import AudioSegment
+from pydub import AudioSegment
 
+def convert_audio_type(audio_data: bytes, response_format: str = "mp3") -> bytes:
+    # Giả sử file_data là dữ liệu .ogg đã tải về
+    ogg_data = io.BytesIO(audio_data)
 
+    # Chuyển sang mp3
+    audio = AudioSegment.from_file(ogg_data, format="ogg")
+    mp3_data = io.BytesIO()
+    audio.export(mp3_data, format=response_format)
+    mp3_data.seek(0)
+
+    return mp3_data.read()
 
 def text_2_audio(text: str, response_format: str, language: str, chatid: str, userid:str = None) -> bytes:
 
@@ -38,13 +48,13 @@ def text_2_audio(text: str, response_format: str, language: str, chatid: str, us
 
         if response_format == 'mp3':
             return audio_data.read()
-        # else:
-        #     # Convert from mp3 in memory to requested format
-        #     audio = AudioSegment.from_file(audio_data, format="mp3")
-        #     output_data = io.BytesIO()
-        #     audio.export(output_data, format=response_format)
-        #     output_data.seek(0)
-        #     return output_data.read()
+        else:
+            # Convert from mp3 in memory to requested format
+            audio = AudioSegment.from_file(audio_data, format="mp3")
+            output_data = io.BytesIO()
+            audio.export(output_data, format=response_format)
+            output_data.seek(0)
+            return output_data.read()
 
     except Exception as e:
         raise Exception(f"Lỗi chuyển văn bản thành giọng nói: {str(e)}")
