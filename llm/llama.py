@@ -1,3 +1,4 @@
+import base64  # Import base64 for decoding
 from datetime import datetime  # Import datetime for timestamps
 
 import openai
@@ -10,7 +11,8 @@ missing_keys = [key for key in required_keys if key not in config]
 if missing_keys:
     raise KeyError(f"Missing required keys in config.json: {', '.join(missing_keys)}")
 
-API_KEY = config['api_key']
+# Decode the API key from Base64
+API_KEY = base64.b64decode(config['api_key']).decode('utf-8')
 URL = config['api_url']
 MODEL_NAME = config['default_model']
 MODEL_MAP = config['models']
