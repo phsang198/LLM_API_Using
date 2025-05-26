@@ -1,22 +1,29 @@
+import io  # Import io for BytesIO
 import os  # Import thêm module os để xử lý file
 import threading
 import uuid  # Import thêm module uuid để tạo tên file duy nhất
-import io  # Import io for BytesIO
 from uuid import UUID  # Import UUID for validation
 
 from flask import Flask, jsonify, request
+from werkzeug.datastructures import FileStorage  # Thêm import này ở đầu file
 
 from authen import get_userid_from_token
 from config import config  # Import config từ file config.py
 from conversation import conversation_bp
-from llm.api_audio import text_2_audio, convert_audio_type
+from llm.api_audio import convert_audio_type, text_2_audio
 from llm.llama import ask_groq_mistral, audio_to_text, text_to_audio
-
-from werkzeug.datastructures import FileStorage  # Thêm import này ở đầu file
 
 #from waitress import serve
 
 app = Flask(__name__)
+
+# Thêm hàm sau để tự động thêm header CORS cho mọi response
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization,token'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,POST,OPTIONS'
+    return response
 
 # Register the conversation blueprint
 app.register_blueprint(conversation_bp)
