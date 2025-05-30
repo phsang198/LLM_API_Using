@@ -7,7 +7,7 @@ os.environ["GOOGLE_API_KEY"] = "AIzaSyCIIYXs3aadHbCugrSYMq95BKHK96-eSgM"
 
 # Kết nối đến Neo4j
 graph = Neo4jGraph(
-    url="bolt://localhost:7687",
+    url="bolt://10.225.0.240:7687",
     username="neo4j",
     password="ZmRT-BpcDJq6B7g5XGH4ppauFZz4QoORxsQ1CbAzshk"
 )
