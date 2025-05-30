@@ -3,3 +3,5 @@ openai
 gtts
 pydub
 PyJWT
+langchain_google_genai
+langchain_neo4j

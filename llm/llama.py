@@ -4,6 +4,7 @@ from datetime import datetime  # Import datetime for timestamps
 import openai
 
 from config import config  # Import config từ file config.py
+from llm.agent import ask_question  # Import tại đây để tránh import vòng lặp
 
 # Validate required keys in the configuration
 required_keys = ['api_key', 'api_url', 'default_model', 'models']
@@ -48,17 +49,30 @@ def ask_groq_mistral(question: str, chatid: str, model_name: str = MODEL_NAME, u
             "created": datetime.now().isoformat()  # Store the creation timestamp
         }
     
-    # Add user question to chat history
     chat_histories[userid][chatid].append({"role": "user", "content": question})
     
-    response = client.chat.completions.create(
-        model=model_id,
-        messages=chat_histories[userid][chatid],
-        temperature=0.3
-    )
-    
-    # Add assistant's response to chat history
-    assistant_message = response.choices[0].message.content
+    # Add user question to chat history
+    #print(f"User question: {question}")
+    if question.strip().lower().startswith("gợi ý:"):
+        # Remove the prefix 'gợi ý:' (case-insensitive) and any leading spaces after it
+        real_question = question.strip()[len("gợi ý:"):].lstrip()
+        result = ask_question(real_question)
+        # If ask_question returns a dict with 'result', extract it
+        if isinstance(result, dict) and 'result' in result:
+            assistant_message = result['result']
+        else:
+            assistant_message = result
+        print(f"Assistant response: {assistant_message}")
+    else:
+        response = client.chat.completions.create(
+            model=model_id,
+            messages=chat_histories[userid][chatid],
+            temperature=0.3
+        )
+        
+        # Add assistant's response to chat history
+        assistant_message = response.choices[0].message.content
+
     chat_histories[userid][chatid].append({"role": "assistant", "content": assistant_message})
     
     return assistant_message
@@ -102,7 +116,7 @@ def audio_to_text(file_path: str, lang: str, response_format: str, chatid: str, 
             # Add transcription result to chat history
             chat_histories[userid][chatid].append({"role": "assistant", "content": transcription})
 
-            return transcription
+        return transcription
         
     except Exception as e:
         # Xử lý lỗi từ API
