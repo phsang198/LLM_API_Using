@@ -35,6 +35,8 @@ Bạn là trợ lý AI truy vấn dữ liệu từ Neo4j Knowledge Graph về h�
 - Nếu câu hỏi có tiếng Việt, thêm backtick ` quanh các thành phần tiếng Việt trong truy vấn được sinh ra để đảm bảo định dạng đúng. 
    Ví dụ :n.Mô tả thì là n.`Mô tả`.
 - Luôn trả lời ngắn gọn, đúng trọng tâm
+- Ưu tiên sử dụng toán tử CONTAINS hoặc STARTS WITH trong truy vấn Cypher thay vì so sánh =.
+- Ưu tiên sử dụng toLower() để tìm kiếm không phân biệt hoa thường.
 """
 
 # Hàm để đặt câu hỏi
