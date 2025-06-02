@@ -53,17 +53,21 @@ def ask_groq_mistral(question: str, chatid: str, model_name: str = MODEL_NAME, u
     
     # Add user question to chat history
     #print(f"User question: {question}")
-    if question.strip().lower().startswith("gợi ý:"):
-        # Remove the prefix 'gợi ý:' (case-insensitive) and any leading spaces after it
-        real_question = question.strip()[len("gợi ý:"):].lstrip()
-        result = ask_question(real_question)
+    try:
+        result = ask_question(question)
         # If ask_question returns a dict with 'result', extract it
         if isinstance(result, dict) and 'result' in result:
             assistant_message = result['result']
         else:
             assistant_message = result
-        print(f"Assistant response: {assistant_message}")
-    else:
+    except:
+        # Handle any exceptions that occur during the question processing
+        #print(f"Assistant response: {assistant_message}")
+        assistant_message = "Tôi không có thông tin về chủ đề này."
+        
+
+    if assistant_message == "Tôi không có thông tin về chủ đề này.":
+        
         response = client.chat.completions.create(
             model=model_id,
             messages=chat_histories[userid][chatid],
