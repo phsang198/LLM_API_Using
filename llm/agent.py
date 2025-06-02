@@ -8,7 +8,7 @@ os.environ["GOOGLE_API_KEY"] = "AIzaSyDhZET3wuiHrPZlguoPqpsj-zOkaGRl1ow"
 
 # Kết nối đến Neo4j
 graph = Neo4jGraph(
-    url="bolt://localhost:7687",
+    url="bolt://10.225.0.240:7687",
     username="neo4j",
     password="ZmRT-BpcDJq6B7g5XGH4ppauFZz4QoORxsQ1CbAzshk"
 )
@@ -32,6 +32,8 @@ Bạn là trợ lý AI truy vấn dữ liệu từ Neo4j Knowledge Graph về h�
 - Nếu câu hỏi liên quan đến ví dụ, giải thích, endpoint, input/output, hãy trả về thông tin chi tiết từ node.
 - Nếu không tìm thấy, hãy trả lời lịch sự rằng không có dữ liệu phù hợp.
 - Nếu câu hỏi không liên quan đến hệ thống workflow, hãy trả lời 1 câu duy nhất "Tôi không có thông tin về chủ đề này.".
+- Nếu câu hỏi có tiếng Việt, thêm backtick ` quanh các thành phần tiếng Việt trong truy vấn được sinh ra để đảm bảo định dạng đúng. 
+   Ví dụ :n.Mô tả thì là n.`Mô tả`.
 - Luôn trả lời ngắn gọn, đúng trọng tâm
 """
 

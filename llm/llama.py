@@ -60,7 +60,8 @@ def ask_groq_mistral(question: str, chatid: str, model_name: str = MODEL_NAME, u
             assistant_message = result['result']
         else:
             assistant_message = result
-    except:
+    except Exception as e:
+        print(f"Error processing question: {e}")
         # Handle any exceptions that occur during the question processing
         #print(f"Assistant response: {assistant_message}")
         assistant_message = "Tôi không có thông tin về chủ đề này."
